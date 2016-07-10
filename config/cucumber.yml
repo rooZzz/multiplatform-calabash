@@ -1,0 +1,3 @@
+base: --require features/support/env.rb --require features/step_definitions
+ios: --profile base --tags ~@android-only
+android: --profile base --tags ~@ios-only
