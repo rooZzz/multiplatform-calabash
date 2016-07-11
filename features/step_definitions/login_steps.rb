@@ -1,15 +1,19 @@
 Given(/^I am a user$/) do
-  pending
+  # Set up data model...
 end
 
 And(/^I navigate to the login screen$/) do
-  pending
-end
-
-When(/^I login with the correct passcode$/) do
-  pending
+  LoginController.check_on_screen
 end
 
 Then(/^I should be on the home screen$/) do
-  pending
+  HomeController.check_on_screen
+end
+
+When(/^I enter the (correct|wrong) passcode$/) do |passcode_type|
+  LoginController.enter_passcode(passcode_type)
+end
+
+Then(/^I should be warned that my passcode was wrong$/) do
+  LoginController.check_for_wrong_passcode
 end

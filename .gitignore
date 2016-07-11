@@ -1,2 +1,3 @@
 .idea/
 multiplatform-calabash.iml
+**/out.log
