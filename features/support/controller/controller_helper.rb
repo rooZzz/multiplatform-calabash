@@ -1,5 +1,5 @@
 class Hash
-  def merge_common!
+  def merge_default!
     {timeout: 30, wait: true, throw: true}.each do |key, value|
       self[key] = value unless self.include?(key)
     end
@@ -25,7 +25,7 @@ module ControllerHelper
   end
 
   def self.does_element_exist(query, opts={})
-    opts.merge_common!
+    opts.merge_default!
     if opts[:wait]
       LOG.debug("Waiting for element to exist: #{query}")
       wait_for_element_exists(query, opts)
@@ -46,7 +46,7 @@ module ControllerHelper
   end
 
   def self.input_text_into_field(query, text, opts={})
-    opts.merge_common!
+    opts.merge_default!
     if query.nil?
       LOG.debug("Attempting to enter text: '#{text}'")
       ios? ? keyboard_enter_text(text) : keyboard_enter_text(query, opts)
