@@ -37,7 +37,9 @@ def redefine_for_platform!(parent_class_name)
   end
   defined_class = Object.const_get(parent_class_name)
   SUPPORT_TYPES.each do |support_type|
-    support_module = Object.const_get("#{support_type.capitalize}Helper")
+    support_module_name = "#{support_type.capitalize}Helper"
+    LOG.debug("Extending #{parent_class_name} with #{support_module_name}")
+    support_module = Object.const_get(support_module_name)
     defined_class.extend(support_module)
   end
   defined_class.extend(
