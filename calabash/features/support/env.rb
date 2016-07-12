@@ -31,6 +31,7 @@ def redefine_for_platform!(parent_class_name)
     LOG.debug("Redefining class #{parent_class_name} to be #{platform_class_name}")
     platform_class = Object.const_get(platform_class_name)
     Object.send(:remove_const, parent_class_name)
+    Object.send(:remove_const, platform_class_name)
     Object.const_set(parent_class_name, platform_class)
   else
     LOG.debug("Platform class #{platform_class_name} not found. Leaving #{parent_class_name} as is")
@@ -42,19 +43,24 @@ def redefine_for_platform!(parent_class_name)
     support_module = Object.const_get(support_module_name)
     defined_class.extend(support_module)
   end
-  defined_class.extend(
-      if $platform == :ios
-        require 'calabash-cucumber/core'
-        Calabash::Cucumber::Core
-      else
-        require 'calabash-android/operations'
-        Calabash::Android::Operations
-      end
-  )
+
+  if $platform == :ios
+    defined_class.extend(Calabash::Cucumber::Operations)
+  else
+    defined_class.extend(Calabash::Android::Operations)
+  end
+
 end
 
 ENV_DIR = File.dirname(__FILE__)
 SUPPORT_TYPES = %w(controller screen)
+
+if $platform == :ios
+  require 'calabash-cucumber/operations'
+  require_relative 'hooks/ios_hooks'
+else
+  require 'calabash-android/operations'
+end
 
 SUPPORT_TYPES.each do |folder_name|
   helper_file_path = File.join(ENV_DIR, folder_name, "#{folder_name}_helper.rb")
