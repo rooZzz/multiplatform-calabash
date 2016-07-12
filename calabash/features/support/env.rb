@@ -1,7 +1,17 @@
-require 'logger'
+require_relative 'init/monkey_patches'
+require_relative 'init/init_logger'
 
 $platform = (ENV['PLATFORM'] || 'android').downcase.to_sym
-LOG_LEVEL = ENV['LOG_LEVEL']
+if $platform == :ios
+  require 'calabash-cucumber/operations'
+  require_relative 'hooks/ios_hooks'
+else
+  require 'calabash-android/operations'
+  require_relative 'hooks/android_hooks'
+end
+require_relative 'hooks/common_hooks'
+
+
 PRETTY_PLATFORM = case $platform
                     when :ios
                       'iOS'
@@ -10,19 +20,8 @@ PRETTY_PLATFORM = case $platform
                     else
                       raise "Unexpected platform provided: #{$platform}"
                   end
-
-LOG = Logger.new(LOG_LEVEL.nil? ? 'out.log' : $stdout)
-LOG.level = if LOG_LEVEL.to_i.between?(Logger::Severity::DEBUG, Logger::Severity::FATAL)
-              LOG_LEVEL.to_i
-            else
-              Logger::Severity::DEBUG
-            end
-
-class String
-  def camelize
-    self.split('_').map(&:capitalize).join
-  end
-end
+ENV_DIR = File.dirname(__FILE__)
+SUPPORT_TYPES = %w(controller screen)
 
 def redefine_for_platform!(parent_class_name)
   raise "Parent class not defined: #{parent_class_name}" unless Object.const_defined?(parent_class_name)
@@ -34,7 +33,7 @@ def redefine_for_platform!(parent_class_name)
     Object.send(:remove_const, platform_class_name)
     Object.const_set(parent_class_name, platform_class)
   else
-    LOG.debug("Platform class #{platform_class_name} not found. Leaving #{parent_class_name} as is")
+    LOG.debug("Platform class #{platform_class_name} not found, leaving #{parent_class_name} as is")
   end
   defined_class = Object.const_get(parent_class_name)
   SUPPORT_TYPES.each do |support_type|
@@ -43,28 +42,17 @@ def redefine_for_platform!(parent_class_name)
     support_module = Object.const_get(support_module_name)
     defined_class.extend(support_module)
   end
-
   if $platform == :ios
     defined_class.extend(Calabash::Cucumber::Operations)
   else
     defined_class.extend(Calabash::Android::Operations)
   end
-
-end
-
-ENV_DIR = File.dirname(__FILE__)
-SUPPORT_TYPES = %w(controller screen)
-
-if $platform == :ios
-  require 'calabash-cucumber/operations'
-  require_relative 'hooks/ios_hooks'
-else
-  require 'calabash-android/operations'
 end
 
 SUPPORT_TYPES.each do |folder_name|
   helper_file_path = File.join(ENV_DIR, folder_name, "#{folder_name}_helper.rb")
   LOG.debug("Requiring: #{helper_file_path}")
+  # noinspection RubyResolve
   require(helper_file_path)
 end
 

@@ -14,10 +14,12 @@ class CalabashExitter
 end
 
 Before do |_|
+  LOG.info('Attempting to relaunch iOS app')
   @launcher = Calabash::Cucumber::Launcher.new
   @launcher.relaunch
 end
 
 After do |_|
+  LOG.info('Attempting to exit Calabash')
   CalabashExitter.exit
 end
