@@ -17,6 +17,7 @@ class LoginController
   end
 
   def self.check_for_wrong_passcode
+    does_element_exist(LoginScreen.passcode_wrong_title)
     does_element_exist(LoginScreen.passcode_wrong_text)
     does_element_exist(LoginScreen.ok_text)
   end

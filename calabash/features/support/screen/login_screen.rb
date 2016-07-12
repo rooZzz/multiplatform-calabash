@@ -16,6 +16,10 @@ class LoginScreen
     by_text("Welcome to the #{platform} app. Please login.")
   end
 
+  def self.passcode_wrong_title
+    by_text('Incorrect passcode')
+  end
+
   def self.passcode_wrong_text
     by_text('Sorry, your passcode was incorrect. Please try again.')
   end
