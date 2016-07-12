@@ -9,6 +9,7 @@ end
 module ControllerHelper
 
   def ios?
+    # noinspection RubyResolve
     $platform == :ios
   end
 

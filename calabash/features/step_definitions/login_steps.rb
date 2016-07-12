@@ -6,10 +6,6 @@ And(/^I navigate to the login screen$/) do
   LoginController.check_on_screen
 end
 
-Then(/^I should be on the home screen$/) do
-  HomeController.check_on_screen
-end
-
 When(/^I enter the (correct|wrong) passcode$/) do |passcode_type|
   LoginController.enter_passcode(passcode_type)
 end
