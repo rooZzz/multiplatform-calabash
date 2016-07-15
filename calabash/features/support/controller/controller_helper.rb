@@ -1,6 +1,6 @@
 class Hash
   def merge_default!
-    {timeout: 30, wait: true, throw: true, use_keyboard: true}.each do |key, value|
+    {timeout: 30, should_wait: true, throw: true, use_keyboard: true}.each do |key, value|
       self[key] = value unless self.include?(key)
     end
   end
@@ -27,7 +27,7 @@ module ControllerHelper
 
   def does_element_exist(query, opts={})
     opts.merge_default!
-    if opts[:wait]
+    if opts[:should_wait]
       wait_for_none_animating(timeout: 2) if ios?
       LOG.debug("Waiting for element to exist: #{query}")
       wait_for_element_exists(query, opts)
@@ -55,6 +55,7 @@ module ControllerHelper
     else
       LOG.debug("Attempting to enter text: '#{text}' into #{query}")
       enter_text(query, text, opts)
+      hide_soft_keyboard unless ios?
     end
   end
 

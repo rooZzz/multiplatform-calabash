@@ -25,7 +25,7 @@ class LoginScreen
   end
 
   def self.ok_text
-    by_text('Ok')
+    raise NotImplementedError
   end
 
 end
@@ -34,6 +34,10 @@ class LoginScreeniOS < LoginScreen
 
   def self.welcome_text
     login_text('iOS')
+  end
+
+  def self.ok_text
+    by_text('Ok')
   end
 
 end
@@ -47,5 +51,10 @@ class LoginScreenAndroid < LoginScreen
   def self.login_button
     by_id('login_button')
   end
+
+  def self.ok_text
+    by_text('OK')
+  end
+
 
 end

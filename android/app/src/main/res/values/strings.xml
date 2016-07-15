@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TestingSyndicate Android</string>
+    <string name="login_button_text">Login</string>
+    <string name="ok">OK</string>
+    <string name="passcode_incorrect_text">Sorry, your passcode was incorrect. Please try again.</string>
+    <string name="incorrect_passcode_text">Incorrect passcode</string>
+    <string name="home_text">Home</string>
+</resources>

@@ -5,11 +5,11 @@ module ScreenHelper
   end
 
   def by_text(text)
-    "* text: '#{escape(text)}'"
+    "* text:'#{escape(text)}'"
   end
 
   def by_id(id)
-    "* id: '#{id}'"
+    "* id:'#{id}'"
   end
 
 end

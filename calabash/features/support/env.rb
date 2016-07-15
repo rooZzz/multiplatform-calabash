@@ -5,12 +5,13 @@ $platform = (ENV['PLATFORM'] || 'android').downcase.to_sym
 if $platform == :ios
   require 'calabash-cucumber/operations'
   require_relative 'hooks/ios_hooks'
+  World(Calabash::Cucumber::Core)
 else
   require 'calabash-android/operations'
   require_relative 'hooks/android_hooks'
+  World(Calabash::Android::Operations)
 end
 require_relative 'hooks/common_hooks'
-
 
 PRETTY_PLATFORM = case $platform
                     when :ios

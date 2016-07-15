@@ -1,25 +1,12 @@
 require 'calabash-cucumber/launcher'
 
-class CalabashExitter
-  include Calabash::Cucumber::Core
-
-  def self.exit
-    CalabashExitter.new.exit
-  end
-
-  def exit
-    calabash_exit
-  end
-
-end
+ENV['APP_BUNDLE_PATH'] = `find ~/Library/Developer/Xcode/DerivedData/ -type d -name "*TestingSyndicate iOS-cal.app" -print`.strip
 
 Before do |_|
-  LOG.info('Attempting to relaunch iOS app')
   @launcher = Calabash::Cucumber::Launcher.new
   @launcher.relaunch
 end
 
 After do |_|
-  LOG.info('Attempting to exit Calabash')
-  CalabashExitter.exit
+  calabash_exit
 end
