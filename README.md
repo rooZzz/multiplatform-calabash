@@ -1,5 +1,7 @@
 # Multiplatform Calabash
 
+http://testingsyndicate.com
+
 ## Impetus
 
 Frequently, companies develop native mobile applications for both iOS and Android alongside one another. Usually, parity of behaviour between apps is
@@ -59,4 +61,16 @@ Navigate to the [Calabash folder](calabash) in your terminal and run:
 ```bash
 	bundle install
 	bundle exec cucumber --profile ios
+```	
+
+#### Logging
+
+The LOG_LEVEL environment variable is used to control logging output. If you do not pass it, the default is logging to the file 'out.log' with log level 'debug'. 
+
+Run with LOG\_LEVEL=0 for debug output, LOG_LEVEL=1 for info output, etc. For future logging, use:
+
+```ruby
+	LOG.debug('This is some debug logging!')
+	LOG.info('This is some info logging!')
+	# etc
 ```	
