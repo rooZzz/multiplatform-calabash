@@ -41,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showIncorrectPasscodeDialog() {
         new AlertDialog.Builder(this)
-                .setTitle(R.string.incorrect_passcode_text)
-                .setMessage(R.string.passcode_incorrect_text)
+                .setTitle(R.string.incorrect_passcode_title)
+                .setMessage(R.string.incorrect_passcode_body)
                 .setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int ignored) {
